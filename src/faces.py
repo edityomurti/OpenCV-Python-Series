@@ -16,9 +16,11 @@ with open("pickles/face-labels.pickle", 'rb') as f:
 	labels = {v:k for k,v in og_labels.items()}
 
 cap = cv2.VideoCapture(0)
+img_counter = 0
 
 while(True):
     # Capture frame-by-frame
+    k = cv2.waitKey(1)
     ret, frame = cap.read()
     gray  = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5)
@@ -51,6 +53,14 @@ while(True):
     	#	cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
     # Display the resulting frame
     cv2.imshow('frame',frame)
+	
+	
+    if k%256 == 32:
+        # SPACE pressed
+        img_name = "opencv_frame_{}.png".format(img_counter)
+        cv2.imwrite(img_name, frame)
+        print("{} written!".format(img_name))
+        img_counter += 1
     if cv2.waitKey(20) & 0xFF == ord('q'):
         break
 

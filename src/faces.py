@@ -39,6 +39,11 @@ while(True):
     		color = (255, 255, 255)
     		stroke = 2
     		cv2.putText(frame, name, (x,y), font, 1, color, stroke, cv2.LINE_AA)
+		if name == 'tidak-dikenal':
+			img_name = "opencv_frame_{}.png".format(img_counter)
+			cv2.imwrite(img_name, frame)
+			print("tidak-dikenal detected, {} written!".format(img_name))
+			img_counter += 1
 
     	img_item = "7.png"
     	cv2.imwrite(img_item, roi_color)
@@ -54,13 +59,6 @@ while(True):
     # Display the resulting frame
     cv2.imshow('frame',frame)
 	
-	
-    if k%256 == 32:
-        # SPACE pressed
-        img_name = "opencv_frame_{}.png".format(img_counter)
-        cv2.imwrite(img_name, frame)
-        print("{} written!".format(img_name))
-        img_counter += 1
     if cv2.waitKey(20) & 0xFF == ord('q'):
         break
 
